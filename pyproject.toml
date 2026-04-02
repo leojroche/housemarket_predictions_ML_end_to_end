@@ -1,0 +1,23 @@
+[project]
+name = "housemarket_ml_end_to_end"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "argparse>=1.4.0",
+    "boto3>=1.42.73",
+    "category-encoders>=2.9.0",
+    "fastapi[standard]>=0.135.2",
+    "ipykernel>=7.2.0",
+    "numpy>=2.4.3",
+    "optuna>=4.8.0",
+    "pandas>=3.0.1",
+    "plotly>=6.6.0",
+    "pyarrow",
+    "pytest>=9.0.2",
+    "requests",
+    "scikit-learn>=1.8.0",
+    "uvicorn>=0.42.0",
+    "xgboost>=3.2.0",
+]

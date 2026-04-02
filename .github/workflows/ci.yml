@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+    push:
+        branches : [main]
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              
+
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+                    aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Login to Amazon ECR
+              uses: aws-actions/amazon-ecr-login@v2
+
+            - name: Build, Tag and Push housemarket_backend image
+              run: | 
+                IMAGE_TAG=${GITHUB_SHA}
+                ERC_REGISTRY=943900885245.dkr.ecr.eu-west-2.amazonaws.com
+                ERC_REPOSITORY=housemarket_backend
+
+                docker build -t $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG -f backend.dockerfile .
+                docker push $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG
+
+                docker tag $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG $ERC_REGISTRY/$ERC_REPOSITORY:latest
+                docker push $ERC_REGISTRY/$ERC_REPOSITORY:latest
+
+            - name: Build, Tag and Push housemarket-frontend image
+              run: | 
+                IMAGE_TAG=${GITHUB_SHA}
+                ERC_REGISTRY=943900885245.dkr.ecr.eu-west-2.amazonaws.com
+                ERC_REPOSITORY=housemarket-frontend
+
+                docker build -t $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG -f frontend.dockerfile .
+                docker push $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG
+
+                docker tag $ERC_REGISTRY/$ERC_REPOSITORY:$IMAGE_TAG $ERC_REGISTRY/$ERC_REPOSITORY:latest
+                docker push $ERC_REGISTRY/$ERC_REPOSITORY:latest
+
+            # Deploy to ECS - Backend 
+            - name: Deploy housemarket-backend
+              run: |
+                aws ecs update-service \
+                  --cluster housemarket-cluster \
+                  --service housemarket-backend-service-ya539yw3 \
+                  --force-new-deployment
+
+            # Deploy to ECS - Frontend 
+            - name: Deploy housemarket-frontend
+              run: |
+                aws ecs update-service \
+                  --cluster housemarket-cluster \
+                  --service housemarket-frontend-service-p3ydhode \
+                  --force-new-deployment
+
+
+
+
+                
