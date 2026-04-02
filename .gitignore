@@ -4,6 +4,5 @@ __pycache__/
 .venv
 .vscode
 /data
-/models
 mlflow.db
 predictions.csv
