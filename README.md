@@ -1,6 +1,6 @@
 # 🏠 House Market Price Prediction — End-to-End ML Project
 
-> 🔗 **Live UI available here:** [Link](http://3.8.94.234:6969/)
+> 🔗 **Live UI available here:** [Link](http://35.179.145.27:6969/)
 
 An end-to-end machine learning (ML) system for predicting US housing market prices across major metropolitan areas. The project covers the full ML lifecycle — from raw data ingestion and temporal splitting, through leakage-safe feature engineering and Bayesian hyperparameter tuning, to a production-ready REST API and an interactive geospatial frontend — with automated CI/CD deployment to AWS.
 
@@ -157,7 +157,7 @@ An interactive **Streamlit** dashboard featuring:
 - **Actual vs. predicted time-series chart** — monthly average prices with a green highlight on the selected month
 - **Prediction table** — full breakdown for the selected city and year
 
-> 🔗 **Live UI available here:** [Link](http://3.8.94.234:6969/)
+> 🔗 **Live UI available here:** [Link](http://35.179.145.27:6969/)
 
 ---
 
